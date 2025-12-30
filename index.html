@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>For Honey ❤️</title>
+
+<!-- Handwritten + UI Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#000;
+  color:#fff;
+  overflow:hidden;
+  font-family:'Poppins',sans-serif;
+}
+
+/* SCREEN SYSTEM */
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+}
+.screen.active{display:flex}
+
+/* UI */
+button,input,video{position:relative;z-index:10}
+
+button{
+  padding:16px 44px;
+  border:none;
+  border-radius:40px;
+  font-size:16px;
+  font-weight:600;
+  background:linear-gradient(145deg,#fff,#ffd6e7);
+  color:#b1005a;
+  box-shadow:
+    0 10px 28px rgba(255,120,200,.6),
+    inset 0 -4px 8px rgba(255,255,255,.7);
+}
+button:active{transform:scale(.97)}
+
+input{
+  width:80%;
+  padding:16px;
+  font-size:18px;
+  border-radius:18px;
+  border:none;
+  text-align:center;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  margin-bottom:18px;
+}
+
+/* BACKGROUND */
+.neon{
+  background:
+    radial-gradient(circle at top,#7a00ff 0%,#22003f 40%,#000 75%),
+    radial-gradient(circle at bottom,#ff2f92 0%,transparent 60%);
+}
+
+/* TITLES */
+.title{
+  font-size:26px;
+  margin-bottom:20px;
+  text-shadow:0 0 22px #ff4da6;
+}
+
+/* EMOJI */
+.emoji{
+  font-size:72px;
+  margin-bottom:16px;
+  animation:float 2s infinite;
+}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* 💖 HANDWRITTEN ROMANTIC TEXT */
+.story{
+  font-family:'Dancing Script',cursive;
+  font-size:24px;
+  font-weight:600;
+  max-width:85%;
+  line-height:1.9;
+  letter-spacing:.5px;
+  color:#fff;
+  text-shadow:
+    0 0 6px rgba(255,255,255,.5),
+    0 0 16px rgba(255,120,200,.8),
+    0 0 36px rgba(255,80,160,.7);
+  animation:fadeIn 1.8s forwards;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* COUNTDOWN */
+.count{
+  font-size:72px;
+  font-weight:800;
+  text-shadow:0 0 30px #fff;
+}
+
+/* FIREWORKS */
+canvas{position:absolute;inset:0;z-index:1}
+
+/* VIDEO */
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:black;
+}
+
+/* FLOATING HEARTS & BALLOONS */
+.floating{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+}
+.float{
+  position:absolute;
+  opacity:.95;
+  filter:drop-shadow(0 0 12px rgba(255,120,200,.9));
+  animation:
+    rise var(--riseDur) linear infinite,
+    rotateSelf var(--rotDur) linear infinite;
+}
+@keyframes rise{
+  from{transform:translateY(110vh)}
+  to{transform:translateY(-120vh)}
+}
+@keyframes rotateSelf{
+  from{rotate:0deg}
+  to{rotate:360deg}
+}
+</style>
+</head>
+
+<body>
+
+<div id="floating" class="floating"></div>
+
+<!-- SPLASH -->
+<div id="splash" class="screen active neon">
+  <h1 style="font-size:42px;text-shadow:0 0 32px #ff4da6">❤️ HONEY ❤️</h1>
+  <p style="margin-top:18px;letter-spacing:5px">WELCOME</p>
+</div>
+
+<!-- INTRO -->
+<div id="intro" class="screen neon">
+  <div class="emoji">👋</div>
+  <div class="title">Hii….. Honey</div>
+  <button onclick="show('login')">START</button>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="screen neon">
+  <div class="title">LOGIN</div>
+  <input id="uid" placeholder="ABCDEFGH">
+  <input id="pwd" placeholder="PASSWORD">
+  <button onclick="checkLogin()">LOGIN</button>
+  <div id="loginErr"></div>
+</div>
+
+<!-- DATE -->
+<div id="date" class="screen neon">
+  <div class="emoji" id="dateEmoji">😎</div>
+  <div class="title">ENTER OUR ANNIVERSARY DATE</div>
+  <input id="dateInput" placeholder="DDMMYYYY">
+  <button onclick="checkDate()">VERIFY</button>
+  <div id="dateErr"></div>
+</div>
+
+<!-- NICK -->
+<div id="nick" class="screen neon">
+  <div class="emoji" id="nickEmoji">🥰</div>
+  <div class="title">ENTER MY FAV LOVE NICKNAME</div>
+  <input id="nickInput">
+  <button onclick="checkNick()">CONFIRM</button>
+  <div id="nickErr"></div>
+</div>
+
+<!-- COUNTDOWN -->
+<div id="count" class="screen neon">
+  <div class="count" id="countNum">60</div>
+</div>
+
+<!-- FIREWORKS -->
+<div id="fire" class="screen neon">
+  <canvas id="fw"></canvas>
+  <h1 class="story" style="font-size:36px;z-index:5">
+    HAPPY NEW YEAR<br>MY LOVE ❤️
+  </h1>
+  <button onclick="show('t1')" style="z-index:5">NEXT</button>
+</div>
+
+<!-- STORY SCREENS -->
+<div id="t1" class="screen neon">
+  <div class="story">"Shree, my love, my life..."</div>
+  <button onclick="show('t2')">More...</button>
+</div>
+
+<div id="t2" class="screen neon">
+  <div class="story">"This is just a small token of my love for you."</div>
+  <button onclick="show('t3')">More...</button>
+</div>
+
+<div id="t3" class="screen neon">
+  <div class="story">"You are the most precious person I know."</div>
+  <button onclick="show('t4')">More...</button>
+</div>
+
+<div id="t4" class="screen neon">
+  <div class="story">"Every heartbeat of mine whispers your name."</div>
+  <button onclick="show('t5')">More...</button>
+</div>
+
+<div id="t5" class="screen neon">
+  <div class="story">"I promise to hold your hand through every sunset."</div>
+  <button onclick="show('t6')">More...</button>
+</div>
+
+<div id="t6" class="screen neon">
+  <div class="story">"Are you ready for your surprise?"</div>
+  <button onclick="show('video')">See Your Surprise</button>
+</div>
+
+<!-- VIDEO -->
+<div id="video" class="screen">
+  <video id="vid" src="lv_0_20251228215859.mp4" controls playsinline></video>
+</div>
+
+<script>
+const show=id=>{
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  floating.style.display=id==="video"?"none":"block";
+};
+setTimeout(()=>show('intro'),5000);
+
+function checkLogin(){
+  uid.value==="HONEY"&&pwd.value==="SONA"?show('date'):loginErr.textContent="Wrong Password";
+}
+function checkDate(){
+  dateInput.value==="01122025"?show('nick'):(dateEmoji.textContent="😢",dateErr.textContent="Wrong Password");
+}
+function checkNick(){
+  nickInput.value.toUpperCase()==="SHREE"?startCount():(nickEmoji.textContent="😢",nickErr.textContent="Wrong Password");
+}
+
+let c=60;
+function startCount(){
+  show('count');
+  let t=setInterval(()=>{
+    countNum.textContent=c;
+    if(c--<=0){clearInterval(t);show('fire');startFireworks();}
+  },1000);
+}
+
+/* FIREWORKS */
+const canvas=fw,ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let p=[];
+function burst(){
+  let x=Math.random()*canvas.width,y=Math.random()*canvas.height/2;
+  for(let i=0;i<240;i++)
+    p.push({x,y,vx:(Math.random()-.5)*9,vy:(Math.random()-.5)*9,l:80});
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  p.forEach(e=>{
+    ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+    ctx.fillRect(e.x,e.y,3,3);
+    e.x+=e.vx;e.y+=e.vy;e.l--;
+  });
+  p=p.filter(e=>e.l>0);
+  requestAnimationFrame(animate);
+}
+function startFireworks(){setInterval(burst,600);animate();}
+
+/* FLOATING HEARTS */
+const floating=document.getElementById("floating");
+const items=["❤️","💖","💗","🎈"];
+setInterval(()=>{
+  const el=document.createElement("div");
+  el.className="float";
+  el.textContent=items[Math.floor(Math.random()*items.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(26+Math.random()*34)+"px";
+  el.style.setProperty("--riseDur",(18+Math.random()*14)+"s");
+  el.style.setProperty("--rotDur",(40+Math.random()*40)+"s");
+  floating.appendChild(el);
+  setTimeout(()=>el.remove(),40000);
+},600);
+</script>
+
+</body>
+</html>
